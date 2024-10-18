@@ -1,0 +1,6 @@
+@BabyName_HostAddress = http://localhost:5231
+
+GET {{BabyName_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###

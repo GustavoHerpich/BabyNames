@@ -1,0 +1,29 @@
+services:
+  sqlserver:
+    image: mcr.microsoft.com/mssql/server:2019-latest
+    environment:
+      - ACCEPT_EULA=Y
+      - MSSQL_SA_PASSWORD=N@m3s_DB2024!
+      - MSSQL_PID=Developer
+    ports:
+      - "1433:1433"
+    volumes:
+      - sqlserver_data:/var/opt/mssql
+
+  backend:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "8080:8080"
+    environment:
+      - ConnectionStrings__Database=Data Source=sqlserver;Initial Catalog=BabyNames;User Id=sa;Password=N@m3s_DB2024!;Encrypt=True;TrustServerCertificate=True
+    depends_on:
+      - sqlserver
+    command: >
+      /bin/bash -c "while ! nc -z sqlserver 1433; do sleep 1; done &&
+      dotnet ef database update &&
+      dotnet BabyName.dll"
+
+volumes:
+  sqlserver_data:
