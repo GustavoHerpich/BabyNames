@@ -1,4 +1,5 @@
-﻿using System.Text.Json.Serialization;
+﻿using Microsoft.AspNetCore.Mvc;
+using System.Text.Json.Serialization;
 
 namespace BabyName.Utils.ResultPattern;
 
@@ -9,6 +10,8 @@ public record Error(string Message, ErrorType Type)
 
     public static Error NotFound(string message)
         => new(message, ErrorType.NotFound);
+
+    public static implicit operator ActionResult(Error error) => Result.Failure(error);
 }
 
 public record ErrorResponse

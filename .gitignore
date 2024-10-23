@@ -1,1 +1,6 @@
-﻿.vs/
+﻿.vs/*
+.vscode/
+.vscode/*
+bin/*
+obj/*
+bin/Debug/net*/
